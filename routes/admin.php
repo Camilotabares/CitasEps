@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\DoctorController;
 use Illuminate\Support\Facades\Route;
 use Laravel\Jetstream\Rules\Role;
 use App\Http\Controllers\Admin\RoleController;
@@ -21,3 +22,6 @@ Route::resource('users',UserController::class);
 //Pacientes
 
 Route::resource('patients',PatientController::class);
+
+//Doctores
+Route::resource('doctors',DoctorController::class);
