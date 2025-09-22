@@ -1,4 +1,4 @@
-@porps(['tab'])
+@props(['tab'=>'default'])
 
 <li class="me-2">
     <a href="#"
@@ -9,5 +9,5 @@
     }">
         {{ $slot }}
 
-    </a>`
+    </a>
 </li>

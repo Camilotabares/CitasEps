@@ -22,7 +22,7 @@ title="Pacientes |Citas Eps"
     <form action="{{ route('admin.patients.update',$patient)}}" method="POST">
         @csrf
         @method('PUT')
-        <x-wire-card>
+        <x-wire-card class="mb-8">
             <div class=" lg:flex lg:justify-between lg:items-center">
                 <div class="flex items-center space-x-5">
                     <img src="{{ $patient->user->patient->user->profile_photo_url }}" class="h-20 w-20 rounded-full object-cover object-center" alt="{{ $patient->user->name }}">
@@ -53,50 +53,25 @@ title="Pacientes |Citas Eps"
             
                 <x-slot name="header">
                         <x-tab-link tab="datos-personales">
-                        {{-- class="inline-flex items-center justify-center p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group"--}}> 
-                            <i class="fa-solid fa-user me-2"></i>
+                            <i class="fa-solid fa-user m-2"></i>
                             Datos Personales 
                         </x-tab-link>
-                    <li class="me-2">
-                        <a href="#"
-                        x-on:click="tab='antecedentes'"
-                        :class="{
-                            'inline-flex items-center justify-center p-4 text-blue-600 border-b-2 border-blue-600 rounded-t-lg active dark:text-blue-500 dark:border-blue-500 group': tab === 'antecedentes',
-                            'inline-flex items-center justify-center p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group': tab !== 'antecedentes'
-                        }"
-                        {{-- class="inline-flex items-center justify-center p-4 text-blue-600 border-b-2 border-blue-600 rounded-t-lg active dark:text-blue-500 dark:border-blue-500 group" aria-current="page"--}}> 
+                        <x-tab-link tab="antecedentes">
                             <i class="fa-solid fa-file-lines m-2"></i>
                             Antecendentes
-                        </a>
-                    </li>
-                    <li class="me-2">
-                        <a href="#"
-                        x-on:click="tab='informacion-general'"
-                        :class="{
-                            'inline-flex items-center justify-center p-4 text-blue-600 border-b-2 border-blue-600 rounded-t-lg active dark:text-blue-500 dark:border-blue-500 group': tab === 'informacion-general',
-                            'inline-flex items-center justify-center p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group': tab !== 'informacion-general'
-                        }"
-                        {{-- class="inline-flex items-center justify-center p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group"--}}> 
+                        </x-tab-link>
+                        <x-tab-link tab="informacion-general">
                             <i class="fa-solid fa-info me-2"></i>
                             Informacion General
-                        </a>
-                    </li>
-                    <li class="me-2">
-                        <a href="#"
-                        x-on:click="tab='contacto-emergencia'"
-                        :class="{
-                            'inline-flex items-center justify-center p-4 text-blue-600 border-b-2 border-blue-600 rounded-t-lg active dark:text-blue-500 dark:border-blue-500 group': tab === 'contacto-emergencia',
-                            'inline-flex items-center justify-center p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group': tab !== 'contacto-emergencia'
-                        }" 
-                        {{-- class="inline-flex items-center justify-center p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group"--}}> 
-                            <i class="fa-solid fa-heart me-2"></i>
+                        </x-tab-link>
+                        <x-tab-link tab="contacto-emergencia">
+                            <i class="fa-solid fa-phone m-2"></i>
                             Contacto de Emergencia 
-                        </a>
-                    </li>
+                        </x-tab-link>
                 </x-slot>
 
                 {{-- Datos Personales  --}}
-                <div x-show="tab === 'datos-personales'">
+                <x-tab-content tab="datos-personales">
                     <x-wire-alert info title="Edicion de Usuario" class="mb-4">
                         
                             <p>Para editar esta informacion, por favor dirigete al <a href="{{ route('admin.users.edit',$patient->user) }}"
@@ -135,9 +110,9 @@ title="Pacientes |Citas Eps"
                         </div>
                         
                     </div>
-                </div>
+                </x-tab-content>
                 {{-- Antecedentes --}}
-                <div x-show="tab === 'antecedentes'">
+                <x-tab-content tab="antecedentes">
                     <div class="grid lg:grid-cols-2 gap-4">
                         <div>
                             <x-wire-textarea class=font-semibold 
@@ -167,17 +142,15 @@ title="Pacientes |Citas Eps"
                             {{ old('family_history',$patient->family_history) }}
                             </x-wire-textarea>
                         </div>
-                    </div>
-                    
-                </div>
+                    </div>   
+                </x-tab-content>
                 {{-- Informacion General --}}
-                <div x-show="tab === 'informacion-general'">
+                <x-tab-content tab="informacion-general">
                     <x-wire-native-select 
                     label="Tipo de Sangre" 
                     class="mb-4" 
                     name="blood_type_id"
                     >
-
                         <option value=""> Seleccione un tipo de sangre </option>
                         @foreach ($bloodTypes as $bloodType)
                         <option value="{{ $bloodType->id }}" @selected($bloodType->id === $patient->blood_type_id)>
@@ -190,9 +163,9 @@ title="Pacientes |Citas Eps"
                     <x-wire-textarea label="Observaciones">
                         {{ old('observations',$patient->observations) }}
                     </x-wire-textarea>
-                </div>
+                </x-tab-content>
                 {{-- Contacto de Emergencia --}}
-                <div x-show="tab === 'contacto-emergencia'">
+                <x-tab-content tab="contacto-emergencia">
                     <div class="space-y-4">
                         <x-wire-input 
                         label="Nombre del Contacto"
@@ -210,7 +183,7 @@ title="Pacientes |Citas Eps"
                         value="{{ old('emergency_contact_relationship',$patient->emergency_contact_relationship) }}"
                         />
                     </div>
-                </div>
+                </x-tab-content>
             
         </x-tabs>
 
