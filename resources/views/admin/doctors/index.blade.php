@@ -9,5 +9,5 @@ title="Doctores |Citas Eps"
         'name' => 'Doctores',
     ],
 ]">
-
+@livewire('admin.datatables.doctor-table')
 </x-admin-layout>
