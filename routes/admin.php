@@ -24,4 +24,5 @@ Route::resource('users',UserController::class);
 Route::resource('patients',PatientController::class);
 
 //Doctores
-Route::resource('doctors',DoctorController::class);
+Route::resource('doctors',DoctorController::class)
+            ->except(['create','store','show']);
