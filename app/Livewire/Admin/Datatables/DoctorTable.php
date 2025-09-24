@@ -5,10 +5,17 @@ namespace App\Livewire\Admin\Datatables;
 use Rappasoft\LaravelLivewireTables\DataTableComponent;
 use Rappasoft\LaravelLivewireTables\Views\Column;
 use App\Models\Doctor;
+use Illuminate\Database\Eloquent\Builder;
 
 class DoctorTable extends DataTableComponent
 {
-    protected $model = Doctor::class;
+   
+    public function builder(): Builder
+    {
+        return Doctor::query()
+            ->with('user');
+
+    }
 
     public function configure(): void
     {
@@ -18,20 +25,27 @@ class DoctorTable extends DataTableComponent
     public function columns(): array
     {
         return [
-            Column::make("Id", "id")
-                ->sortable(),
-            Column::make("User id", "user_id")
-                ->sortable(),
-            Column::make("Speciality id", "speciality_id")
-                ->sortable(),
-            Column::make("Medical license number", "medical_license_number")
-                ->sortable(),
-            Column::make("Biography", "biography")
-                ->sortable(),
-            Column::make("Created at", "created_at")
-                ->sortable(),
-            Column::make("Updated at", "updated_at")
-                ->sortable(),
+        Column::make("Id", "id")
+            ->sortable(),
+        Column::make("Nombre", "user.name")
+            ->sortable(),
+        Column::make("Dni", "user.dni")
+            ->sortable(),
+        Column::make("Email", "user.email")
+            ->sortable(),
+        Column::make("Telefono", "user.phone")
+            ->sortable(),
+        Column::make("Especialidad", "speciality.name")
+            ->format(function ($value){
+                return $value ?: 'N/A';
+            })
+            ->sortable(),
+        Column::make("Acciones")
+        ->label(function ($row) {
+            return view ('admin.doctors.actions',[
+                    'doctor'=>$row
+            ]);
+        })
         ];
     }
 }

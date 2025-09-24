@@ -15,9 +15,6 @@ title="Pacientes |Citas Eps"
     ]
 ]">
 
-<form action="{{route('admin.patients.update',$patient) }}" method="POST">
-    @csrf
-    @method('PUT')
 
     <form action="{{ route('admin.patients.update',$patient)}}" method="POST">
         @csrf
@@ -25,10 +22,13 @@ title="Pacientes |Citas Eps"
         <x-wire-card class="mb-8">
             <div class=" lg:flex lg:justify-between lg:items-center">
                 <div class="flex items-center space-x-5">
-                    <img src="{{ $patient->user->patient->user->profile_photo_url }}" class="h-20 w-20 rounded-full object-cover object-center" alt="{{ $patient->user->name }}">
+                    <img src="{{ $patient->user->profile_photo_url }}" class="h-20 w-20 rounded-full object-cover object-center" alt="{{ $patient->user->name }}">
                     <div>
-                        <p class="text-2x1 font-bold space-x text-gray-900">
+                        <p class="text-2x1 font-bold space-x text-gray-900 mb-1">
                             {{ $patient->user->name }}
+                        </p>
+                        <p class="text-sm font-semibold text-gray-500">
+                            DNI: {{ $patient->use->dni ?? 'N/A' }}
                         </p>
                     </div>
                 </div>
@@ -48,6 +48,7 @@ title="Pacientes |Citas Eps"
             
             {{-- Tabs --}}
         </x-wire-card>
+
         <x-wire-card class="mb-6">
         <x-tabs active="datos-personales">
             
@@ -186,11 +187,9 @@ title="Pacientes |Citas Eps"
                 </x-tab-content>
             
         </x-tabs>
-
-    
-        </x-wire-card>
+    </x-wire-card>
     </form>
 
-</form>
+
 
 </x-admin-layout>

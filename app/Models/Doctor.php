@@ -10,7 +10,7 @@ class Doctor extends Model
     protected $fillable = [
         'user_id',
         'speciality_id',
-        'medical_license_number ',
+        'medical_license_number',
         'biography',
     ];
     //Realciones inversas
