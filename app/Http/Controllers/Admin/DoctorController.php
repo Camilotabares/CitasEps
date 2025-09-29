@@ -61,6 +61,7 @@ class DoctorController extends Controller
             'speciality_id'=>'nullable|exists:specialities,id',
             'medical_license_number'=>'nullable|string|max:255|unique:doctors,medical_license_number,'.$doctor->id,
             'biography'=>'nullable|string',
+            'active'=>'boolean',
         ]);
 
         $doctor->update($data);
@@ -72,6 +73,11 @@ class DoctorController extends Controller
         ]);
 
         return redirect()->route('admin.doctors.edit',$doctor);
+    }
+
+    public function schedules(Doctor $doctor)
+    {
+        return view ('admin.doctors.schedules',compact('doctor'));
     }
 
 }

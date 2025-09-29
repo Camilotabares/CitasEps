@@ -27,3 +27,6 @@ Route::resource('patients',PatientController::class)
 //Doctores
 Route::resource('doctors',DoctorController::class)
             ->only(['index','edit','update']);
+
+Route::get('doctors/{doctor}/schedules',[DoctorController::class,'schedules'])
+            ->name('doctors.schedules');

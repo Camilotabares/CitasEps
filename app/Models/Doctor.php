@@ -12,6 +12,7 @@ class Doctor extends Model
         'speciality_id',
         'medical_license_number',
         'biography',
+        'active',
     ];
     //Realciones inversas
     public function user()
