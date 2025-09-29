@@ -30,3 +30,4 @@ Route::resource('doctors',DoctorController::class)
 
 Route::get('doctors/{doctor}/schedules',[DoctorController::class,'schedules'])
             ->name('doctors.schedules');
+

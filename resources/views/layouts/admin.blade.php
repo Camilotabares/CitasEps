@@ -32,6 +32,8 @@
 
         <!-- Styles -->
         @livewireStyles
+
+        @stack('css')
     </head>
     <body class="font-sans antialiased">
 
@@ -91,6 +93,6 @@
 
         </script>
 
-        
+        @stack('js')
     </body>
 </html>
