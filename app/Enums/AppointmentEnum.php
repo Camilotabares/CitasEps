@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Enums;
+namespace App;
 
-enum AppointmentEnum: int
+enum AppointmentEnum:int
 {
     case SCHEDULED = 1;
     case COMPLETED = 2;
