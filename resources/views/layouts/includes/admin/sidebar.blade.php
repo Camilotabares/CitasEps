@@ -33,6 +33,12 @@
                'href' => route('admin.doctors.index'),
                'active' => request()->routeIs('admin.doctors.*'),
             ],
+            [
+               'name' => 'Citas Medicas',
+               'icon' => 'fa-solid fa-calendar-days',
+               'href' => route('admin.appointments.index'),
+               'active' => request()->routeIs('admin.appointments.*'),
+            ],
 ]
    @endphp
    

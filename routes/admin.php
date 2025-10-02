@@ -6,6 +6,7 @@ use Laravel\Jetstream\Rules\Role;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\PatientController;
+use App\Http\Controllers\Admin\AppointmentController;
 
 Route::get('/',function(){
     return view('admin.dashboard');
@@ -31,3 +32,5 @@ Route::resource('doctors',DoctorController::class)
 Route::get('doctors/{doctor}/schedules',[DoctorController::class,'schedules'])
             ->name('doctors.schedules');
 
+Route::resource('appointments',AppointmentController::class);
+            
