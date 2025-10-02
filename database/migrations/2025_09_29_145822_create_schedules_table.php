@@ -19,7 +19,7 @@ return new class extends Migration
                 ->onDelete('cascade');
             $table->unsignedTinyInteger('date_of_week');
             $table->time('start_time');
-            $table->time('end_time');
+            // $table->time('end_time');
             $table->timestamps();
         });
     }

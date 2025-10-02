@@ -16,31 +16,30 @@ class ScheduleManager extends Component
 
     public $schedule = [];
 
-    public $days =[
-        1 =>'Lunes',
-        2 =>'Martes',
-        3 =>'Miercoles',
-        4 =>'Jueves',
-        5 =>'Viernes',
-        6 =>'Sabado',
-        0 =>'Domingo ',
-    ];
+    public $days =[];
 
-    public $apointment_duration =15;
+    public $apointment_duration; // se le asigna en config.schedule.php el valor de 15
+    public $start_time ; // se le asigna en config.schedule.php el valor de 08:00:00
+    public $end_time ; //se le asigna en  config.schedule.php el valor de 18:00:00
+
     public $intervals;
 
     #[Computed()]
     public function hourBlocks()
     {
         return CarbonPeriod::create(
-            Carbon::createFromTimeString('08:00' ),
+            Carbon::createFromTimeString($this->start_time),
             '1 hour',
-            Carbon::createFromTimeString('18:00')
+            Carbon::createFromTimeString($this->end_time)
         )->excludeEndDate();
     }
 
     public function mount()
     {
+        $this->apointment_duration = config('schedule.appointment_duration');
+        $this->days = config('schedule.days');
+        $this->start_time = config('schedule.start_time');
+        $this->end_time = config('schedule.end_time');
         $this->intervals =60 / $this->apointment_duration;
         $this->initializeSchedule();
 
@@ -71,6 +70,8 @@ class ScheduleManager extends Component
                 }
             }
         }
+
+        
     
     }
 
@@ -86,10 +87,6 @@ class ScheduleManager extends Component
                             'doctor_id' => $this->doctor->id,
                             'date_of_week' => $day_of_week,
                             'start_time' => $start_time,
-                            'end_time' => Carbon::createFromTimeString($start_time)
-                            ->addMinutes($this->apointment_duration)
-                            ->format('H:i:s'),
-    
                         ]);
 
                     };
