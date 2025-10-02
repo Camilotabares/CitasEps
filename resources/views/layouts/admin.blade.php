@@ -65,12 +65,14 @@
         <script>
             swal.fire(@json(session('swal')));
         </script>
-
         @endif
-
+        <script>
+            Livewire.on('swal', function(data) {
+                Swal.fire(data[0]);
+            });
+        </script>
         <script>
             forms= document.querySelectorAll('.delete-form');
-
             forms.forEach(form=>{
                 form.addEventListener('submit', function(e) {
                     e.preventDefault();

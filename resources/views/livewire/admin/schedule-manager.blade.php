@@ -5,6 +5,9 @@
             <h1 class="text-xl font-semibold ">
                 Gestor de Horarios
             </h1>
+            <x-wire-button wire:click="save" blue >
+                Guardar Horario
+            </x-wire-button>
 
         </div>
 
@@ -34,7 +37,10 @@
                         <td class="px-6 py-4 whitespace-nowrap">
                             <label>
                                 
-                                <input type="checkbox" class="h-4 w-4  text-blue-300 border-gray-300 focus:ring-blue-500 ">
+                                <input type="checkbox"
+                                x-on:click ="toggleFullHourBlock('{{ $hour}}',$el.checked)"
+                                :checked="isFullHourBlockChecked('{{ $hour}}')"
+                                class="h-4 w-4  text-blue-300 border-gray-300 focus:ring-blue-500 ">
                                 <span class="font-bold ml-2">
                                     {{ $hour}}
                                 </span>
@@ -45,7 +51,10 @@
                         <td class="px-6 py-4 whitespace-nowrap">
                             <div class="flex flex-col space-y-2"  >
                                 <label>
-                                    <input type="checkbox" class="h-4 w-4  text-blue-300 border-gray-300 focus:ring-blue-500 ">
+                                    <input type="checkbox"
+                                    x-on:click ="toggleHourBlock('{{ $indexDay }}','{{ $hour}}',$el.checked)"
+                                    :checked="isHourBlockChecked('{{ $indexDay }}','{{ $hour}}')"
+                                    class="h-4 w-4  text-blue-300 border-gray-300 focus:ring-blue-500 ">
                                     <span class="ml-2 text-sm font-medium text-gray-700">
                                         todos
                                     </span>
@@ -73,15 +82,61 @@
                 </tbody>
             </table>
         </div>
+
+        <div class="flex justify-end items-center mt-4">
+            <x-wire-button wire:click="save" blue >
+                Guardar Horario
+            </x-wire-button>
+        </div>
     </x-wire-card>
 
     @push('js')
     <script>
         function data(){
             return{
-                schedule:@entangle('schedule')
-            }
-        }
+                schedule:@entangle('schedule'),
+                apointment_duration:@entangle('apointment_duration'),
+                intervals:@entangle('intervals'),
+                days:@entangle('days'),
+                toggleHourBlock(indexDay,hourBlock,checked){
+
+                    let hour = new Date(`1970-01-01T${hourBlock}`);
+                    
+                    for($i = 0; $i <this.intervals; $i++){
+                        let starTime = new Date(hour.getTime() + ($i * this.apointment_duration * 60000));
+                        let formattedStarTime = starTime.toTimeString().split(' ')[0];
+
+                        this.schedule[indexDay][formattedStarTime] = checked;
+                        
+                    }
+                },
+                isHourBlockChecked(indexDay,hourBlock){
+
+                    let hour = new Date(`1970-01-01T${hourBlock}`);
+
+                    for($i = 0; $i <this.intervals; $i++){
+                        let starTime = new Date(hour.getTime() + ($i * this.apointment_duration * 60000));
+                        let formattedStarTime = starTime.toTimeString().split(' ')[0];
+                        if(!this.schedule[indexDay][formattedStarTime]){
+                            return false;
+                        }
+                    }
+                    return true;
+                    },
+                toggleFullHourBlock(hourBlock,checked)
+                {
+                    Object.keys(this.days).forEach((indexDay)=>{
+                        this.toggleHourBlock(indexDay,hourBlock,checked);
+                    });
+                },
+                isFullHourBlockChecked(hourBlock)
+                {
+                     return Object.keys(this.days).every((indexDay)=>{
+                       return this.isHourBlockChecked(indexDay,hourBlock);
+                    });
+                }
+    }
+}
     </script>
     @endpush
 </div>
