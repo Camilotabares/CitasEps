@@ -14,4 +14,6 @@ title="Citas |Citas Eps"
     ],
 ]">
 
+@livewire('admin.appointment-manager')
+
 </x-admin-layout>
